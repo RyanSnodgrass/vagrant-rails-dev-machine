@@ -20,3 +20,8 @@ rvm_gem {
     ensure => '3.2.14',
     require => Rvm_system_ruby['ruby-1.9.3'];
 }
+package{
+  'sqlite-devel':
+	ensure => 'installed',
+	provider => 'yum'
+}
