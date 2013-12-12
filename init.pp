@@ -33,7 +33,7 @@ class install_things_with_rvm {
     }
 }
 
-RIABLES
+#VARIABLES
 $user = "ec2-user"
 $oracle_install_path = "/usr/lib/oracle"
 $oracle_source_path = "${oracle_install_path}"
