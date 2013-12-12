@@ -1,5 +1,5 @@
 include download_oracle
-include oracle_install
+include oracle_instant
 include rvm
 include install_things_with_rvm
 
