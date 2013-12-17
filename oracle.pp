@@ -1,34 +1,31 @@
-# VARIABLES
-$user = "ec2-user"
-$oracle_install_path = "/usr/lib/oracle"
-$oracle_source_path = "${oracle_install_path}"
 
-$oracle_repo_root = "https://s3.amazonaws.com/OracleInstantClient" 
-$oracle_basic_filename = "oracle-instantclient11.2-basic-11.2.0.3.0-1.x86_64"
-$oracle_devel_filename = "oracle-instantclient11.2-devel-11.2.0.3.0-1.x86_64"
-$oracle_sqlplus_filename = "oracle-instantclient11.2-sqlplus-11.2.0.3.0-1.x86_64"
+class oracle_instant_client{
 
-$oracle_basic_url = "${oracle_repo_root}/${oracle_basic_filename}.rpm"
-$oracle_devel_url = "${oracle_repo_root}/${oracle_devel_filename}.rpm"
-$oracle_sqlplus_url = "${oracle_repo_root}/${oracle_sqlplus_filename}.rpm"
+    if $user == undef { fail("'user' not defined") }
 
-$ldap_ora_url = "${oracle_repo_root}/ldap.ora"
-$sqlnet_ora_url = "${oracle_repo_root}/sqlnet.ora"
-$tnsnames_url = "${oracle_repo_root}/tnsnames.ora"
-
-$tns_admin_path = "${oracle_install_path}/11.2/client64/network/admin"
-$ld_library_path = "${oracle_install_path}/11.2/client64/lib"
-$oracle_home_path ="${oracle_install_path}/11.2/client64"
-
-# DO THIS!
-#include download_oracle
-#include oracle_instant
-
-# GLOBAL PATH SETTING
-Exec { path => [ "/bin/", "/sbin/" , "/usr/bin/", "/usr/sbin/" ] }
-
-# CLASS DEFINITIONS
-class download_oracle{
+    # VARIABLES
+    $oracle_install_path = "/usr/lib/oracle"
+    $oracle_source_path = "${oracle_install_path}"
+    
+    $oracle_repo_root = "https://s3.amazonaws.com/OracleInstantClient" 
+    $oracle_basic_filename = "oracle-instantclient11.2-basic-11.2.0.3.0-1.x86_64"
+    $oracle_devel_filename = "oracle-instantclient11.2-devel-11.2.0.3.0-1.x86_64"
+    $oracle_sqlplus_filename = "oracle-instantclient11.2-sqlplus-11.2.0.3.0-1.x86_64"
+    
+    $oracle_basic_url = "${oracle_repo_root}/${oracle_basic_filename}.rpm"
+    $oracle_devel_url = "${oracle_repo_root}/${oracle_devel_filename}.rpm"
+    $oracle_sqlplus_url = "${oracle_repo_root}/${oracle_sqlplus_filename}.rpm"
+    
+    $ldap_ora_url = "${oracle_repo_root}/ldap.ora"
+    $sqlnet_ora_url = "${oracle_repo_root}/sqlnet.ora"
+    $tnsnames_url = "${oracle_repo_root}/tnsnames.ora"
+    
+    $tns_admin_path = "${oracle_install_path}/11.2/client64/network/admin"
+    $ld_library_path = "${oracle_install_path}/11.2/client64/lib"
+    $oracle_home_path ="${oracle_install_path}/11.2/client64"
+    
+    # GLOBAL PATH SETTING
+    Exec { path => [ "/bin/", "/sbin/" , "/usr/bin/", "/usr/sbin/" ] }
 
     file {'oracle install directory':
 	ensure => 	directory,
@@ -62,11 +59,8 @@ class download_oracle{
 	command => "wget ${oracle_sqlplus_url} -O ${oracle_source_path}/${oracle_sqlplus_filename}.rpm",
 	creates => "${oracle_source_path}/${oracle_sqlplus_filename}.rpm"
     }
-}
 
-class oracle_instant {
-  require download_oracle
-
+  # INSTALLATION
   # install client
   exec {"rpm -i ${oracle_install_path}/${oracle_basic_filename}.rpm":
 	cwd => 		$oracle_install_path,

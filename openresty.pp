@@ -1,16 +1,20 @@
-# openresty environment variables
-$user = "ec2-user"
-$openresty_package_url = "https://s3.amazonaws.com/OpenRestyPackage/ngx_openresty-1.2.8.6.tar.tar.tar.gz"
-
-$base_dir = "/usr/local"
-$openresty_home = "${base_dir}/openresty"
-$openresty_src = "${openresty_home}/src"
-$openresty_filename = "ngx_openresty-1.2.8.6"
-$targz_suffix = ".tar.gz"
-
-Exec { path => [ "/bin/", "/sbin/" , "/usr/bin/", "/usr/sbin/" ] }
-
+# installs the lua-enabled nginx variant "openresty"
+# requires a $user to be set by the caller for editing the path in bashrc
 class openresty {
+
+  # user must be set (for setting up path)G
+  if $user == undef { fail("'user' not defined") }
+
+  # openresty environment variables
+  $openresty_package_url = "https://s3.amazonaws.com/OpenRestyPackage/ngx_openresty-1.2.8.6.tar.tar.tar.gz"
+  
+  $openresty_home = "usr/local/openresty"
+  $openresty_src = "${openresty_home}/src"
+  $openresty_filename = "ngx_openresty-1.2.8.6"
+  $targz_suffix = ".tar.gz"
+
+  Exec { path => [ "/bin/", "/sbin/" , "/usr/bin/", "/usr/sbin/" ] }
+  ->
   package {'readline-devel':
 	ensure =>	latest,
 	provider =>	yum
@@ -38,7 +42,7 @@ class openresty {
   ->
   file {"openresty install dir":
 	ensure =>	directory,
-  	path => 	"${base_dir}/openresty",
+  	path => 	"${openresty_home}",
 	mode =>		"0755",
 	owner =>	$user
   }
@@ -86,8 +90,5 @@ class openresty {
   exec {"bash -c 'echo \"export PATH=\\\$PATH:${openresty_home}/bin\" >> /home/${user}/.bashrc'":
 	user => 	$user
   }
-	
   
 }
-
-include openresty
