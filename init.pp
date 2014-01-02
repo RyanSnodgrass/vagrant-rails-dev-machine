@@ -16,7 +16,15 @@ file {'resolv.conf':
 
 include openresty
 include oracle_instant_client
-include rvm
+#include rvm
+
+# I am getting the error in this issue: https://github.com/wayneeseguin/rvm/issues/2496
+# A pull request was merged to fix it.  This was 2 days ago ( 12/31/2013? ).  I did not get the error BEFOR this..
+# so either the pull request causes the error for me, or this puppet module is not getting the latest RVM.  So I'm trying to specify
+# the version number of RVM to see what happens.
+# reference to the issue, where I put in my report: https://github.com/wayneeseguin/rvm/issues/2496#issuecomment-31479728
+class { 'rvm': version => '1.25.10' }
+
 include install_things_with_rvm
 
 # RVM module must exist and have had the libcurl dependency file modified to work
