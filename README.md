@@ -10,10 +10,12 @@ Deploy the CAS app:
 --------------------
 Unforunately, in the current form, "root" cannot run "bundle install" because it can't install bundler.  So you will have to manually start the app.  Fortunately, that's pretty automated.
 
-SSH in (vagrant ssh on mac)
-cd ~/cas
-bundle install
-cap vagrant vagrant:setup
+SSH into vagrant (`vagrant ssh` on mac) then...
+
+    cd ~/cas
+    bundle install
+    cap vagrant vagrant:setup
 
 Now it's running.  On your laptop:
-https://localhost:4443
+
+    https://localhost:4443
