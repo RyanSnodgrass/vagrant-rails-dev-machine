@@ -8,7 +8,7 @@ HTTPS will be forwarded from 443 on the VM to 4443 on the host.
 
 Deploy the CAS app:
 --------------------
-Unforunately, in the current form, "root" cannot run "bundle install" because it can't install bundler.  So you will have to manually start the app.  Fortunately, that's pretty automated.
+Unforunately, in this version, you still have to manually start the app.  Fortunately, it's pretty automated.
 
 SSH into vagrant (`vagrant ssh` on mac) then...
 
