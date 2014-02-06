@@ -1,5 +1,48 @@
 #VARIABLES
-$user = "vagrant"
+$user = "deployer"
+$apps_home_dir = "/apps"
+
+file {"apps dir":
+	ensure =>	directory,
+  	path => 	"${apps_home_dir}",
+	mode =>		"0775",
+	owner =>	$user,
+        group =>	"rvm"
+  }
+
+group { "deployer":
+    ensure => "present",
+}
+->
+user_homedir { "deployer":
+  group => "deployer",
+  fullname => "Otto the Deployer",
+  ingroups => ["deployer", "rvm"]
+}
+user_homedir { "vagrant":
+  group => "deployer",
+  fullname => "Vagrant Default",
+  ingroups => ["deployer", "rvm"]
+}
+
+define user_homedir ($group, $fullname, $ingroups) {
+  user { "$name":
+    ensure => present,
+    comment => "$fullname",
+    gid => "$group",
+    groups => $ingroups,
+    membership => minimum,
+    shell => "/bin/bash",
+    home => "/home/$name",
+    require => Group[$group],
+  }
+
+  exec { "$name homedir":
+    command => "/bin/cp -R /etc/skel /home/$name; /bin/chown -R $name:$group /home/$name",
+    creates => "/home/$name",
+    require => User[$name],
+  }
+}
 
 # GLOBAL PATH SETTING
 Exec { path => [ "/bin/", "/sbin/" , "/usr/bin/", "/usr/sbin/" ] }
@@ -13,7 +56,7 @@ include oracle_instant_client
 
 
 # I am getting the error in this issue: https://github.com/wayneeseguin/rvm/issues/2496
-# A pull request was merged to fix it.  This was 2 days ago ( 12/31/2013? ).  I did not get the error BEFOR this..
+# A pull request was merged to fix it.  This was 2 days ago ( 12/31/2013? ).  I did not get the error BEFORE this..
 # so either the pull request causes the error for me, or this puppet module is not getting the latest RVM.  So I'm trying to specify
 # the version number of RVM to see what happens.
 # reference to the issue, where I put in my report: https://github.com/wayneeseguin/rvm/issues/2496#issuecomment-31479728
@@ -64,3 +107,4 @@ class install_things_with_rvm (
     	provider => 'yum'
     }
 }
+
