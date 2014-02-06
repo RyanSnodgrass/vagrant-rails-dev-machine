@@ -79,25 +79,7 @@ wget http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
 wget http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
 sudo rpm -Uvh remi-release-6*.rpm epel-release-6*.rpm 
 
-puppet apply /vagrant/manifests/init.pp
-
-sudo chown vagrant -R /usr/local/rvm/
-sudo chown vagrant:vagrant -R /home/vagrant/cas/
-
-cd /home/vagrant/cas
-
-# make location for unicorn pid file
-mkdir /home/vagrant/cas/tmp
-mkdir /home/vagrant/cas/tmp/pid
-
-# install globally and maybe root can run bundle install/ cap deploy
-gem install bundler
-gem install capistrano
 sudo /etc/init.d/iptables stop
-
-bundle install
-rake db:migrate
-cap vagrant vagrant:setup
 SCRIPT
 
 
@@ -125,10 +107,10 @@ SCRIPT
   # #               Managed by Puppet.\n"
   # # }
   #
-#  config.vm.provision :puppet do |puppet|
-#     puppet.manifests_path = "./manifests"
-#     puppet.manifest_file  = "init.pp"
-#  end
+  config.vm.provision :puppet do |puppet|
+     puppet.manifests_path = "./manifests"
+     puppet.manifest_file  = "init.pp"
+  end
 
 
   # Enable provisioning with chef solo, specifying a cookbooks path, roles
