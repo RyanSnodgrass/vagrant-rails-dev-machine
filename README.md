@@ -14,7 +14,7 @@ SSH into vagrant (`vagrant ssh` on mac) then...
 
     cd ~/cas
     bundle install
-    cap vagrant vagrant:setup
+    bundle exec cap vagrant deploy:first_time
 
 Now it's running.  On your laptop:
 
