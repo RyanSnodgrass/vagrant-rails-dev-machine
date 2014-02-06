@@ -78,7 +78,7 @@ package{ 'nodejs':
 # on Amazon Linux (by changing the default to libcurl-devel in /manifests/dependencies/centos.pp)
 class install_things_with_rvm (
     $ruby_ver = 'ruby-1.9.3',
-    $rails_ver = '3.2.14'
+    $rails_ver = '3.2.16'
 ){
     require rvm
 
