@@ -16,6 +16,6 @@ SSH into vagrant (`vagrant ssh` on mac) then...
     bundle install
     bundle exec cap vagrant deploy:first_time
 
-Now it's running.  On your laptop:
+This will deploy to localhost (the vagrant VM) as if it's a remote machine.  It will install to the /apps directory and start it running.  On your laptop:
 
     https://localhost:4443
