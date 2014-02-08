@@ -72,12 +72,15 @@ if [ ! -d "/usr/share/puppet/modules/rvm" ]; then
    git clone https://github.com/ndoit/puppet-openresty.git /usr/share/puppet/modules/openresty
    git clone https://github.com/ndoit/puppet-oracle-instant /usr/share/puppet/modules/oracle_instant_client
    git clone https://github.com/ndoit/rails-cas-test.git /home/vagrant/cas
+   git clone https://github.com/ndoit/puppet-nd-api.git /vagrant/manifests/
 fi
 # ran into trouble installing libyaml-devl on centos.  adding the EPEL repo as described here fixed it
 # http://maverickgeekstuffs.blogspot.com/2013/03/installing-libyaml-devel-in-centos.html
 wget http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
 wget http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
 sudo rpm -Uvh remi-release-6*.rpm epel-release-6*.rpm 
+
+sudo puppet apply /vagrant/manifests/init.pp
 
 sudo /etc/init.d/iptables stop
 SCRIPT
@@ -107,10 +110,10 @@ SCRIPT
   # #               Managed by Puppet.\n"
   # # }
   #
-  config.vm.provision :puppet do |puppet|
-     puppet.manifests_path = "./manifests"
-     puppet.manifest_file  = "init.pp"
-  end
+  #config.vm.provision :puppet do |puppet|
+  #   puppet.manifests_path = "./manifests"
+  #   puppet.manifest_file  = "init.pp"
+  #end
 
 
   # Enable provisioning with chef solo, specifying a cookbooks path, roles
