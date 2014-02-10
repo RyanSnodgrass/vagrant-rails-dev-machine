@@ -1,5 +1,5 @@
 #VARIABLES
-$user = "deployer"
+$user = "deploy"
 $apps_home_dir = "/apps"
 
 file {"apps dir":
@@ -10,19 +10,22 @@ file {"apps dir":
         group =>	"rvm"
   }
 
-group { "deployer":
+group { "deploy":
     ensure => "present",
 }
 ->
-user_homedir { "deployer":
-  group => "deployer",
+user_homedir { "deploy":
+  group => "deploy",
   fullname => "Otto the Deployer",
-  ingroups => ["deployer", "rvm"]
+  ingroups => ["deploy", "rvm"]
 }
 user_homedir { "vagrant":
-  group => "deployer",
+  group => "deploy",
   fullname => "Vagrant Default",
-  ingroups => ["deployer", "rvm"]
+  ingroups => ["deploy", "rvm"]
+}
+
+
 }
 
 define user_homedir ($group, $fullname, $ingroups) {
@@ -46,6 +49,24 @@ define user_homedir ($group, $fullname, $ingroups) {
 
 # GLOBAL PATH SETTING
 Exec { path => [ "/bin/", "/sbin/" , "/usr/bin/", "/usr/sbin/" ] }
+
+
+class { 'known_hosts':
+    	user =>	$user,
+	site => 'github.com'
+}
+
+# REUSABLE TO ADD KNOWN_HOSTS
+class known_hosts (
+    $user = "",
+    $site = ""  
+){
+
+  exec {"add site to known_hosts for user":
+       	command => 		"ssh-keyscan -H ${site} >> /home/${user}/.ssh/known_hosts"
+  }
+
+}
 
 class { 'openresty':
     openresty_home => '/usr/local/openresty'
