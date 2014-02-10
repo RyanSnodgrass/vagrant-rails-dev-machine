@@ -27,7 +27,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
-  # config.vm.network :private_network, ip: "192.168.33.10"
+  config.vm.network :private_network, ip: "192.168.33.10"
 
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on
@@ -71,7 +71,6 @@ if [ ! -d "/usr/share/puppet/modules/rvm" ]; then
    git clone https://github.com/ndoit/puppet-rvm.git  /usr/share/puppet/modules/rvm
    git clone https://github.com/ndoit/puppet-openresty.git /usr/share/puppet/modules/openresty
    git clone https://github.com/ndoit/puppet-oracle-instant /usr/share/puppet/modules/oracle_instant_client
-   git clone https://github.com/ndoit/rails-cas-test.git /home/vagrant/cas
    git clone https://github.com/ndoit/puppet-nd-api.git /vagrant/manifests/
 fi
 # ran into trouble installing libyaml-devl on centos.  adding the EPEL repo as described here fixed it
