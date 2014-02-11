@@ -49,6 +49,10 @@ define user_homedir ($group, $fullname, $ingroups) {
 # GLOBAL PATH SETTING
 Exec { path => [ "/bin/", "/sbin/" , "/usr/bin/", "/usr/sbin/" ] }
 
+ssh::resource::known_hosts { 'add git to known_hosts':
+  hosts => 'github.com',
+  user => $user,
+}
 
 #class { 'known_hosts':
 #    	user =>	$user,
