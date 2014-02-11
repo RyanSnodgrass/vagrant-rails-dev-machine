@@ -76,6 +76,7 @@ $openresty_home = '/usr/local/openresty'
 class { 'openresty':
     openresty_home => $openresty_home
 }
+->
 exec { "$name homedir":
     command => "chown -R root:$group $openresty_home"
 }
