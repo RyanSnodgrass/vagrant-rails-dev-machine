@@ -80,8 +80,14 @@ class { 'openresty':
 exec { "chown openresty home to deploy group":
     command => "chown -R root:$group $openresty_home"
 }
+->
+exec { "deploy sudo for nginx":
+    command => "echo '%deploy ALL=(ALL)NOPASSWD:/usr/local/openresty/nginx/sbin/nginx' >> /etc/sudoers"
+}
+
 #include openresty
 include oracle_instant_client
+
 
 
 
