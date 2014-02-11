@@ -77,7 +77,7 @@ class { 'openresty':
     openresty_home => $openresty_home
 }
 ->
-exec { "$name homedir":
+exec { "chown openresty home to deploy group":
     command => "chown -R root:$group $openresty_home"
 }
 #include openresty
