@@ -1,5 +1,6 @@
 #VARIABLES
 $user = "deploy"
+$group = "deploy"
 $apps_home_dir = "/apps"
 
 file {"apps dir":
@@ -14,15 +15,15 @@ group { "deploy":
     ensure => "present",
 }
 ->
-user_homedir { "deploy":
-  group => "deploy",
+user_homedir { $user:
+  group => $group,
   fullname => "Otto the Deployer",
-  ingroups => ["deploy", "rvm"]
+  ingroups => [$group, "rvm"]
 }
 user_homedir { "vagrant":
-  group => "deploy",
+  group => $group,
   fullname => "Vagrant Default",
-  ingroups => ["deploy", "rvm"]
+  ingroups => [$group, "rvm"]
 }
 
 
@@ -71,8 +72,12 @@ ssh::resource::known_hosts { 'add git to known_hosts':
 #
 #}
 
+$openresty_home = '/usr/local/openresty'
 class { 'openresty':
-    openresty_home => '/usr/local/openresty'
+    openresty_home => $openresty_home
+}
+exec { "$name homedir":
+    command => "chown -R root:$group $openresty_home"
 }
 #include openresty
 include oracle_instant_client
