@@ -11,7 +11,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Every Vagrant virtual environment requires a box to build off of.
   config.vm.box = "centos64"
-  #config.vm.hostname = "deploy-jumpbox"
 
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
@@ -25,6 +24,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network :forwarded_port, guest: 3001, host: 3301
   config.vm.network :forwarded_port, guest: 3002, host: 3302
   config.vm.network :forwarded_port, guest: 3000, host: 3333
+  
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
@@ -72,7 +72,8 @@ if [ ! -d "/usr/share/puppet/modules/rvm" ]; then
    git clone https://github.com/ndoit/puppet-rvm.git  /usr/share/puppet/modules/rvm
    git clone https://github.com/ndoit/puppet-openresty.git /usr/share/puppet/modules/openresty
    git clone https://github.com/ndoit/puppet-oracle-instant /usr/share/puppet/modules/oracle_instant_client
-   git clone https://github.com/ndoit/rails-cas-test.git /home/vagrant/cas
+   git clone https://github.com/blt/puppet-ssh.git /usr/share/puppet/modules/ssh
+   git clone https://github.com/puppetlabs/puppetlabs-firewall /usr/share/puppet/modules/firewall
    git clone https://github.com/ndoit/puppet-nd-api.git /vagrant/manifests/
 fi
 # ran into trouble installing libyaml-devl on centos.  adding the EPEL repo as described here fixed it
