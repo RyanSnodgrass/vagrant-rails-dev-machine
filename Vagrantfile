@@ -72,8 +72,10 @@ if [ ! -d "/usr/share/puppet/modules/rvm" ]; then
    git clone https://github.com/ndoit/puppet-rvm.git  /usr/share/puppet/modules/rvm
    git clone https://github.com/ndoit/puppet-openresty.git /usr/share/puppet/modules/openresty
    git clone https://github.com/ndoit/puppet-oracle-instant /usr/share/puppet/modules/oracle_instant_client
-   git clone https://github.com/blt/puppet-ssh.git /usr/share/puppet/modules/ssh
-   git clone https://github.com/puppetlabs/puppetlabs-firewall /usr/share/puppet/modules/firewall
+   git clone https://github.com/ndoit/puppet-ssh.git /usr/share/puppet/modules/ssh
+   git clone https://github.com/ndoit/puppetlabs-firewall /usr/share/puppet/modules/firewall
+   git clone https://github.com/ndoit/puppet-sudo /usr/share/puppet/modules/sudo
+   git clone https://github.com/ndoit/puppetlabs-stdlib /usr/share/puppet/modules/stdlib
    git clone https://github.com/ndoit/puppet-nd-api.git /vagrant/manifests/
 fi
 # ran into trouble installing libyaml-devl on centos.  adding the EPEL repo as described here fixed it
