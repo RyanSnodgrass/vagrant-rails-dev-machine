@@ -84,7 +84,6 @@ sudo rpm -Uvh remi-release-6*.rpm epel-release-6*.rpm
 
 sudo puppet apply /vagrant/manifests/init.pp
 
-sudo /etc/init.d/iptables stop
 SCRIPT
 
 
