@@ -55,22 +55,10 @@ ssh::resource::known_hosts { 'add git to known_hosts':
   user => $user,
 }
 
-#class { 'known_hosts':
-#    	user =>	$user,
-#	site => 'github.com'
-#}
-#
-## REUSABLE TO ADD KNOWN_HOSTS
-#class known_hosts (
-#    $user = "",
-#    $site = ""  
-#){
-#
-#  exec {"add site to known_hosts for user":
-#       	command => 		"ssh-keyscan -H ${site} >> /home/${user}/.ssh/known_hosts"
-#  }
-#
-#}
+# remove host firewall
+resources { "firewall":
+  purge => true
+}
 
 $openresty_home = '/usr/local/openresty'
 class { 'openresty':
