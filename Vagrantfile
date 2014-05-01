@@ -71,7 +71,6 @@ yum install -y git
 if [ ! -d "/usr/share/puppet/modules/rvm" ]; then
    puppet module install jfryman-nginx
    git clone https://github.com/ndoit/puppet-rvm.git  /etc/puppet/modules/rvm
-   git clone https://github.com/ndoit/puppet-openresty.git /etc/puppet/modules/openresty
    git clone https://github.com/ndoit/puppet-oracle-instant /etc/puppet/modules/oracle_instant_client
    git clone https://github.com/ndoit/puppet-ssh.git /etc/puppet/modules/ssh
    git clone https://github.com/ndoit/puppetlabs-firewall /etc/puppet/modules/firewall
