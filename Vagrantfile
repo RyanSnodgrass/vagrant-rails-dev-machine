@@ -76,6 +76,8 @@ if [ ! -d "/usr/share/puppet/modules/rvm" ]; then
    git clone https://github.com/ndoit/puppetlabs-firewall /etc/puppet/modules/firewall
    git clone https://github.com/ndoit/puppet-sudo /etc/puppet/modules/sudo
    git clone https://github.com/ndoit/puppetlabs-stdlib /etc/puppet/modules/stdlib
+   git clone https://github.com/ndoit/puppet-elasticsearch /etc/puppet/modules/elasticsearch
+   git clone https://github.com/ndoit/puppet-neo4j /etc/puppet/modules/neo4j
    git clone https://github.com/ndoit/puppet-nd-api.git /vagrant/manifests/
 fi
 # ran into trouble installing libyaml-devl on centos.  adding the EPEL repo as described here fixed it
@@ -84,7 +86,7 @@ wget http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
 wget http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
 sudo rpm -Uvh remi-release-6*.rpm epel-release-6*.rpm 
 
-sudo puppet apply /vagrant/manifests/init.pp
+sudo puppet apply --verbose --debug /vagrant/manifests/init.pp
 
 SCRIPT
 
@@ -92,7 +94,7 @@ SCRIPT
 
   config.vm.provision "shell", inline: $script
   # from rvm module writer's sample vagrant file
-  config.vm.provision :shell, :inline => "test -d /etc/puppet/modules/epel || puppet module install stahnma/epel -v 0.0.3"
+  #config.vm.provision :shell, :inline => "test -d /etc/puppet/modules/epel || puppet module install stahnma/epel -v 0.0.3"
 
 
   # Enable provisioning with Puppet stand alone.  Puppet manifests
