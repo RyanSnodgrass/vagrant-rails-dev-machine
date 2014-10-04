@@ -19,11 +19,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
-  config.vm.network :forwarded_port, guest: 80, host: 8081
-  config.vm.network :forwarded_port, guest: 443, host: 4443 
-  config.vm.network :forwarded_port, guest: 3001, host: 3301
-  config.vm.network :forwarded_port, guest: 3002, host: 3302
-  config.vm.network :forwarded_port, guest: 3000, host: 3333
+  config.vm.network :forwarded_port, guest: 80, host: 8088
+  config.vm.network :forwarded_port, guest: 443, host: 4448 
+  config.vm.network :forwarded_port, guest: 3001, host: 3401
+  config.vm.network :forwarded_port, guest: 3002, host: 3402
   
 
   # Create a private network, which allows host-only access to the machine
@@ -69,7 +68,6 @@ $script = <<SCRIPT
 echo I am provisioning...
 yum install -y git
 if [ ! -d "/usr/share/puppet/modules/rvm" ]; then
-   puppet module install jfryman-nginx
    git clone https://github.com/ndoit/puppet-rvm.git  /etc/puppet/modules/rvm
    git clone https://github.com/ndoit/puppet-oracle-instant /etc/puppet/modules/oracle_instant_client
    git clone https://github.com/ndoit/puppet-ssh.git /etc/puppet/modules/ssh
@@ -78,7 +76,7 @@ if [ ! -d "/usr/share/puppet/modules/rvm" ]; then
    git clone https://github.com/ndoit/puppetlabs-stdlib /etc/puppet/modules/stdlib
    git clone https://github.com/ndoit/puppet-elasticsearch /etc/puppet/modules/elasticsearch
    git clone https://github.com/ndoit/puppet-neo4j /etc/puppet/modules/neo4j
-   git clone https://github.com/ndoit/puppet-nd-api.git /vagrant/manifests/
+   git clone https://github.com/ndoit/puppet-rails-template.git /tmp/manifests/
 fi
 # ran into trouble installing libyaml-devl on centos.  adding the EPEL repo as described here fixed it
 # http://maverickgeekstuffs.blogspot.com/2013/03/installing-libyaml-devel-in-centos.html
@@ -86,7 +84,7 @@ wget http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
 wget http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
 sudo rpm -Uvh remi-release-6*.rpm epel-release-6*.rpm 
 
-sudo puppet apply --verbose --debug /vagrant/manifests/init.pp
+sudo puppet apply --verbose --debug /tmp/manifests/init.pp
 
 SCRIPT
 
