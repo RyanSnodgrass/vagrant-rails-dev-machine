@@ -67,6 +67,7 @@ end
 $script = <<SCRIPT
 echo I am provisioning...
 yum install -y git
+yum update -y
 if [ ! -d "/usr/share/puppet/modules/rvm" ]; then
    git clone https://github.com/ndoit/puppet-rvm.git  /etc/puppet/modules/rvm
    git clone https://github.com/ndoit/puppet-oracle-instant /etc/puppet/modules/oracle_instant_client
