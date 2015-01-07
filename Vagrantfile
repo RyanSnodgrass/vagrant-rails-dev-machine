@@ -88,8 +88,8 @@ wget http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
 sudo rpm -Uvh remi-release-6*.rpm epel-release-6*.rpm 
 
 cd /tmp/manifests
-git checkout bi-portal
 sudo puppet apply --verbose --debug /tmp/manifests/init.pp
+sudo puppet apply --verbose --debug /tmp/manifests/bi-portal-extras.pp
 
 SCRIPT
 
