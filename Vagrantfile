@@ -93,6 +93,7 @@ sudo sed -i "s/mirrorlist=https/mirrorlist=http/" /etc/yum.repos.d/epel.repo
 sudo puppet apply --verbose --debug /tmp/manifests/init.pp
 sudo puppet apply --verbose --debug /tmp/manifests/bi-portal-extras.pp
 
+usermod -a -G rvm vagrant
 
 SCRIPT
 
