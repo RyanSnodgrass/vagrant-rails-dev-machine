@@ -69,7 +69,7 @@ end
 $script = <<SCRIPT
 echo I am provisioning...
 yum install -y git
-yum update -y
+#yum update -y
 if [ ! -d "/usr/share/puppet/modules/rvm" ]; then
    git clone https://github.com/ndoit/puppet-rvm.git  /etc/puppet/modules/rvm
    git clone https://github.com/ndoit/puppet-oracle-instant /etc/puppet/modules/oracle_instant_client
@@ -87,9 +87,12 @@ wget http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
 wget http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
 sudo rpm -Uvh remi-release-6*.rpm epel-release-6*.rpm 
 
-cd /tmp/manifests
+# fix from https://community.hpcloud.com/article/centos-63-instance-giving-cannot-retrieve-metalink-repository-epel-error
+sudo sed -i "s/mirrorlist=https/mirrorlist=http/" /etc/yum.repos.d/epel.repo
+
 sudo puppet apply --verbose --debug /tmp/manifests/init.pp
 sudo puppet apply --verbose --debug /tmp/manifests/bi-portal-extras.pp
+
 
 SCRIPT
 
