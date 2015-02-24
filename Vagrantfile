@@ -20,13 +20,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
   config.vm.network :forwarded_port, guest: 80, host: 80
-  config.vm.network :forwarded_port, guest: 443, host: 4443 
+  config.vm.network :forwarded_port, guest: 443, host: 4443
   config.vm.network :forwarded_port, guest: 3000, host: 3000
   config.vm.network :forwarded_port, guest: 3001, host: 3001
   config.vm.network :forwarded_port, guest: 3002, host: 3002
-  config.vm.network :forwarded_port, guest: 7474, host: 7474 
-  config.vm.network :forwarded_port, guest: 9200, host: 9200 
-  
+  config.vm.network :forwarded_port, guest: 7474, host: 7474
+  config.vm.network :forwarded_port, guest: 9200, host: 9200
+
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
   config.vm.network :private_network, ip: "192.168.33.10"
@@ -85,7 +85,7 @@ fi
 # http://maverickgeekstuffs.blogspot.com/2013/03/installing-libyaml-devel-in-centos.html
 wget http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
 wget http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
-sudo rpm -Uvh remi-release-6*.rpm epel-release-6*.rpm 
+sudo rpm -Uvh remi-release-6*.rpm epel-release-6*.rpm
 
 # fix from https://community.hpcloud.com/article/centos-63-instance-giving-cannot-retrieve-metalink-repository-epel-error
 sudo sed -i "s/mirrorlist=https/mirrorlist=http/" /etc/yum.repos.d/epel.repo
@@ -100,6 +100,8 @@ SCRIPT
 
 
   config.vm.provision "shell", inline: $script
+  config.vm.provision "shell", path: "bootstrap.sh"
+  config.vm.provision "shell", path: "restart_services.sh"
   # from rvm module writer's sample vagrant file
   #config.vm.provision :shell, :inline => "test -d /etc/puppet/modules/epel || puppet module install stahnma/epel -v 0.0.3"
 
