@@ -102,8 +102,8 @@ SCRIPT
 
 
   config.vm.provision "shell", inline: $script
-  config.vm.provision "shell", path: ./bootstrap.sh
-  config.vm.provision "shell", path: ./restart_services.sh
+  config.vm.provision "shell", path: "./bootstrap.sh"
+  config.vm.provision "shell", path: "./restart_services.sh"
   # from rvm module writer's sample vagrant file
   #config.vm.provision :shell, :inline => "test -d /etc/puppet/modules/epel || puppet module install stahnma/epel -v 0.0.3"
 

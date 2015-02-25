@@ -1,5 +1,8 @@
 #!/bin/bash/
 
+echo "Now Triggering bootstrap.sh"
+rvm use 2.0.0 --create
+
 makeAppsDirectory(){
   echo "===================================================="
   echo "=============Instantiating Apps Directory==========="
