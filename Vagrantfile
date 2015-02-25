@@ -95,8 +95,6 @@ sudo puppet apply --verbose --debug /tmp/manifests/bi-portal-extras.pp
 
 usermod -a -G rvm vagrant
 
-rvm use 2.0.0 --create
-
 SCRIPT
 
 
