@@ -95,13 +95,15 @@ sudo puppet apply --verbose --debug /tmp/manifests/bi-portal-extras.pp
 
 usermod -a -G rvm vagrant
 
+rvm use 2.0.0 --create
+
 SCRIPT
 
 
 
   config.vm.provision "shell", inline: $script
-  config.vm.provision "shell", path: "bootstrap.sh"
-  config.vm.provision "shell", path: "restart_services.sh"
+  config.vm.provision "shell", path: ./bootstrap.sh
+  config.vm.provision "shell", path: ./restart_services.sh
   # from rvm module writer's sample vagrant file
   #config.vm.provision :shell, :inline => "test -d /etc/puppet/modules/epel || puppet module install stahnma/epel -v 0.0.3"
 
