@@ -1,68 +1,85 @@
-#!/bin/bash/
+#!/usr/bin/env bash
 
 echo -e "$COL_RED Now Triggering bootstrap.sh $COL_RESET"
-rvm use 2.0.0 --create
+# source /usr/local/rvm/scripts/rvm
+# rvm use 2.0.0 --create
+gem install bundler
 
 makeAppsDirectory(){
   echo -e "$COL_YELLOW====================================================$COL_RESET"
   echo -e "$COL_YELLOW=============Instantiating Apps Directory===========$COL_RESET"
   echo -e "$COL_YELLOW====================================================$COL_RESET"
-  mkdir apps
+  mkdir /vagrant/apps
 }
 
-cdToApps(){
-  echo -e "$COL_YELLOW====================================================$COL_RESET"
-  echo -e "$COL_YELLOW=============Entering Apps Directory================$COL_RESET"
-  echo -e "$COL_YELLOW====================================================$COL_RESET"
-  cd ./apps/;
-}
 
 cloneMuninn(){
-  echo -e "$COL_YELLOW====================================================$COL_RESET"
-  echo -e "$COL_YELLOW====================Cloning Muninn==================$COL_RESET"
-  echo -e "$COL_YELLOW====================================================$COL_RESET"
-  echo -e "$COL_MAGENTA         _  $COL_RESET"
-  echo -e "$COL_MAGENTA        /.) $COL_RESET"
-  echo -e "$COL_MAGENTA       /)\| $COL_RESET"
-  echo -e "$COL_MAGENTA      /|)/  $COL_RESET"
-  echo -e "$COL_MAGENTA     /'^^'  $COL_RESET"
+  echo -e "$COL_MAGENTA=========================================================================$COL_RESET"
+  echo -e "$COL_MAGENTA====================================Cloning Muninn=======================$COL_RESET"
+  echo -e "$COL_MAGENTA=========================================================================$COL_RESET"
+  echo '
 
+  __________-------____                 ____-------__________
+  \------____-------___--__---------__--___-------____------/
+   \//////// / / / / / \   .-------.   / \ \ \ \ \ \\\\\\\\/
+     \////-/-/------/_/_|  //     \\  |_\_\------\-\-\\\\/
+       --//// / /  /  //|  | o___o |  | ||\\  \  \ \ \\\\--
+            ---__/  // /|  \ _____ /  |\ \\  \__---
+                 -//  / /\_ \     / _/\ \  \\-
+                   \_/_/ /\--\   /--/\ \_\_/
+                       ----\  \ /  /----
+                            |  -  |
+                          / /_ | _\ \
+                         / // / \ \\ \
+                        ////_|| ||_\\\\
+  '
 
-  git clone https://github.com/ndoit/muninn;
+  git clone https://github.com/ndoit/muninn /vagrant/apps/muninn
 }
 
 cloneHuginn(){
-  echo -e "$COL_YELLOW====================================================$COL_RESET"
-  echo -e "$COL_YELLOW====================Cloning Huginn==================$COL_RESET"
-  echo -e "$COL_YELLOW====================================================$COL_RESET"
-  echo -e "$COL_MAGENTA           _     $COL_RESET"
-  echo -e "$COL_MAGENTA          (.\    $COL_RESET"
-  echo -e "$COL_MAGENTA          |/(\   $COL_RESET"
-  echo -e "$COL_MAGENTA           \)|\  $COL_RESET"
-  echo -e "$COL_MAGENTA           '^^'\ $COL_RESET"
+  echo -e "$COL_MAGENTA=======================================================================$COL_RESET"
+  echo -e "$COL_MAGENTA=======================================Cloning Huginn==================$COL_RESET"
+  echo -e "$COL_MAGENTA=======================================================================$COL_RESET"
+  echo '
 
-  git clone https://github.com/ndoit/huginn
+  __________-------____                 ____-------__________
+  \------____-------___--__---------__--___-------____------/
+   \//////// / / / / / \   .-------.   / \ \ \ \ \ \\\\\\\\/
+     \////-/-/------/_/_|  //     \\  |_\_\------\-\-\\\\/
+       --//// / /  /  //|  | o___o |  | ||\\  \  \ \ \\\\--
+            ---__/  // /|  \ _____ /  |\ \\  \__---
+                 -//  / /\_ \     / _/\ \  \\-
+                   \_/_/ /\--\   /--/\ \_\_/
+                       ----\  \ /  /----
+                            |  -  |
+                          / /_ | _\ \
+                         / // / \ \\ \
+                        ////_|| ||_\\\\
+  '
+
+  git clone https://github.com/ndoit/huginn /vagrant/apps/huginn
 }
 
 bundleInstallMuninn(){
-  cd ./muninn/;
+  cd /vagrant/apps/muninn/
   echo -e "$COL_YELLOW====================================================$COL_RESET"
   echo -e "$COL_YELLOW===========Starting Bundle Install Muninn===========$COL_RESET"
   echo -e "$COL_YELLOW====================================================$COL_RESET"
-  bundle install;
+  bundle install
 }
 
-cdBackToAppsDirectory(){
-  cd ./../;
-}
 
 bundleInstallHuginn(){
-  cd ./huginn/;
+  cd /vagrant/apps/huginn/
   echo -e "$COL_YELLOW====================================================$COL_RESET"
   echo -e "$COL_YELLOW===========Starting Bundle Install Huginn===========$COL_RESET"
   echo -e "$COL_YELLOW====================================================$COL_RESET"
-  bundle install;
+  bundle install
 }
+
+
+
 
 completionMessage(){
   echo -e "$COL_YELLOW====================================================$COL_RESET"
@@ -76,18 +93,11 @@ completionMessage(){
   echo -e "$COL_MAGENTA                   /'^^'     '^^'\                  $COL_RESET"
 }
 
-
-
-
-
 makeAppsDirectory
-cdToApps
 cloneMuninn
 cloneHuginn
 bundleInstallMuninn
-cdBackToAppsDirectory
 bundleInstallHuginn
-cdBackToAppsDirectory
 completionMessage
 
 

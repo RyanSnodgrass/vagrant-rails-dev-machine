@@ -1,3 +1,7 @@
+#!/usr/bin/env bash
+
+
+
 sudo cp /vagrant/apps/huginn/config/huginn_nginx_conf /etc/nginx/sites-available
 sudo ln -s /etc/nginx/sites-available/huginn_nginx_conf /etc/nginx/sites-enabled/
 

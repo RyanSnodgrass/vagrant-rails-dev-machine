@@ -65,43 +65,56 @@ end
   #
   # View the documentation for the provider you're using for more
   # information on available options.
-# 
-# $script = <<SCRIPT
-# echo I am provisioning...
-# yum install -y git
-# #yum update -y
-# if [ ! -d "/usr/share/puppet/modules/rvm" ]; then
-#    git clone https://github.com/ndoit/puppet-rvm.git  /etc/puppet/modules/rvm
-#    git clone https://github.com/ndoit/puppet-oracle-instant /etc/puppet/modules/oracle_instant_client
-#    git clone https://github.com/ndoit/puppet-ssh.git /etc/puppet/modules/ssh
-#    git clone https://github.com/ndoit/puppetlabs-firewall /etc/puppet/modules/firewall
-#    git clone https://github.com/ndoit/puppet-sudo /etc/puppet/modules/sudo
-#    git clone https://github.com/ndoit/puppetlabs-stdlib /etc/puppet/modules/stdlib
-#    git clone https://github.com/ndoit/puppet-elasticsearch /etc/puppet/modules/elasticsearch
-#    git clone https://github.com/ndoit/puppet-neo4j /etc/puppet/modules/neo4j
-#    git clone https://github.com/ndoit/puppet-rails-template.git /tmp/manifests/
-# fi
-# # ran into trouble installing libyaml-devl on centos.  adding the EPEL repo as described here fixed it
-# # http://maverickgeekstuffs.blogspot.com/2013/03/installing-libyaml-devel-in-centos.html
-# wget http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
-# wget http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
-# sudo rpm -Uvh remi-release-6*.rpm epel-release-6*.rpm
 #
-# # fix from https://community.hpcloud.com/article/centos-63-instance-giving-cannot-retrieve-metalink-repository-epel-error
-# sudo sed -i "s/mirrorlist=https/mirrorlist=http/" /etc/yum.repos.d/epel.repo
+# $script2 = <<SCRIPT
 #
-# sudo puppet apply --verbose --debug /tmp/manifests/init.pp
-# sudo puppet apply --verbose --debug /tmp/manifests/bi-portal-extras.pp
-#
-# usermod -a -G rvm vagrant
+# su - vagrant
+# mkdir /tmp/test
 #
 # SCRIPT
-#
-#
-#
-#   config.vm.provision "shell", inline: $script
-  config.vm.provision "shell", path: "./bootstrap.sh"
-  config.vm.provision "shell", path: "./restart_services.sh"
+
+
+$script = <<SCRIPT
+echo I am provisioning...
+yum install -y git
+#yum update -y
+if [ ! -d "/usr/share/puppet/modules/rvm" ]; then
+   git clone https://github.com/ndoit/puppet-rvm.git  /etc/puppet/modules/rvm
+   git clone https://github.com/ndoit/puppet-oracle-instant /etc/puppet/modules/oracle_instant_client
+   git clone https://github.com/ndoit/puppet-ssh.git /etc/puppet/modules/ssh
+   git clone https://github.com/ndoit/puppetlabs-firewall /etc/puppet/modules/firewall
+   git clone https://github.com/ndoit/puppet-sudo /etc/puppet/modules/sudo
+   git clone https://github.com/ndoit/puppetlabs-stdlib /etc/puppet/modules/stdlib
+   git clone https://github.com/ndoit/puppet-elasticsearch /etc/puppet/modules/elasticsearch
+   git clone https://github.com/ndoit/puppet-neo4j /etc/puppet/modules/neo4j
+   git clone https://github.com/ndoit/puppet-rails-template.git /tmp/manifests/
+fi
+# ran into trouble installing libyaml-devl on centos.  adding the EPEL repo as described here fixed it
+# http://maverickgeekstuffs.blogspot.com/2013/03/installing-libyaml-devel-in-centos.html
+wget http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+wget http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
+sudo rpm -Uvh remi-release-6*.rpm epel-release-6*.rpm
+
+# fix from https://community.hpcloud.com/article/centos-63-instance-giving-cannot-retrieve-metalink-repository-epel-error
+sudo sed -i "s/mirrorlist=https/mirrorlist=http/" /etc/yum.repos.d/epel.repo
+
+sudo puppet apply --verbose --debug /tmp/manifests/init.pp
+sudo puppet apply --verbose --debug /tmp/manifests/bi-portal-extras.pp
+
+usermod -a -G rvm vagrant
+
+SCRIPT
+
+
+
+  config.vm.provision "shell", inline: $script
+  config.vm.provision "shell" do |s|
+    s.path = "bootstrap.sh"
+    s.path = "restart_services.sh"
+  end
+  #
+
+  # config.vm.provision "shell", path: "restart_services.sh"
   # from rvm module writer's sample vagrant file
   #config.vm.provision :shell, :inline => "test -d /etc/puppet/modules/epel || puppet module install stahnma/epel -v 0.0.3"
 
