@@ -1,22 +1,22 @@
 #!/usr/bin/env bash
 
-echo -e "$COL_RED Now Triggering bootstrap.sh $COL_RESET"
-# source /usr/local/rvm/scripts/rvm
-# rvm use 2.0.0 --create
+echo " Now Triggering bootstrap.sh "
+source /usr/local/rvm/scripts/rvm
+rvm use 2.0.0 --create
 gem install bundler
 
 makeAppsDirectory(){
-  echo -e "$COL_YELLOW====================================================$COL_RESET"
-  echo -e "$COL_YELLOW=============Instantiating Apps Directory===========$COL_RESET"
-  echo -e "$COL_YELLOW====================================================$COL_RESET"
+  echo "===================================================="
+  echo "=============Instantiating Apps Directory==========="
+  echo "===================================================="
   mkdir /vagrant/apps
 }
 
 
 cloneMuninn(){
-  echo -e "$COL_MAGENTA=========================================================================$COL_RESET"
-  echo -e "$COL_MAGENTA====================================Cloning Muninn=======================$COL_RESET"
-  echo -e "$COL_MAGENTA=========================================================================$COL_RESET"
+  echo "========================================================================="
+  echo "====================================Cloning Muninn======================="
+  echo "========================================================================="
   echo '
 
   __________-------____                 ____-------__________
@@ -38,9 +38,9 @@ cloneMuninn(){
 }
 
 cloneHuginn(){
-  echo -e "$COL_MAGENTA=======================================================================$COL_RESET"
-  echo -e "$COL_MAGENTA=======================================Cloning Huginn==================$COL_RESET"
-  echo -e "$COL_MAGENTA=======================================================================$COL_RESET"
+  echo "======================================================================="
+  echo "=======================================Cloning Huginn=================="
+  echo "======================================================================="
   echo '
 
   __________-------____                 ____-------__________
@@ -63,18 +63,18 @@ cloneHuginn(){
 
 bundleInstallMuninn(){
   cd /vagrant/apps/muninn/
-  echo -e "$COL_YELLOW====================================================$COL_RESET"
-  echo -e "$COL_YELLOW===========Starting Bundle Install Muninn===========$COL_RESET"
-  echo -e "$COL_YELLOW====================================================$COL_RESET"
+  echo "===================================================="
+  echo "===========Starting Bundle Install Muninn==========="
+  echo "===================================================="
   bundle install
 }
 
 
 bundleInstallHuginn(){
   cd /vagrant/apps/huginn/
-  echo -e "$COL_YELLOW====================================================$COL_RESET"
-  echo -e "$COL_YELLOW===========Starting Bundle Install Huginn===========$COL_RESET"
-  echo -e "$COL_YELLOW====================================================$COL_RESET"
+  echo "===================================================="
+  echo "===========Starting Bundle Install Huginn==========="
+  echo "===================================================="
   bundle install
 }
 
@@ -82,15 +82,15 @@ bundleInstallHuginn(){
 
 
 completionMessage(){
-  echo -e "$COL_YELLOW====================================================$COL_RESET"
-  echo -e "$COL_YELLOW===========Huginn & Muninn have completed===========$COL_RESET"
-  echo -e "$COL_YELLOW================thought & mind are one==============$COL_RESET"
-  echo -e "$COL_YELLOW====================================================$COL_RESET"
-  echo -e "$COL_MAGENTA                       _     _                      $COL_RESET"
-  echo -e "$COL_MAGENTA                      /.)   (.\                     $COL_RESET"
-  echo -e "$COL_MAGENTA                     /)\|   |/)\                    $COL_RESET"
-  echo -e "$COL_MAGENTA                    /|)/     \(|\                   $COL_RESET"
-  echo -e "$COL_MAGENTA                   /'^^'     '^^'\                  $COL_RESET"
+  echo "===================================================="
+  echo "===========Huginn & Muninn have completed==========="
+  echo "================thought & mind are one=============="
+  echo "===================================================="
+  echo "                       _     _                      "
+  echo "                      /.)   (.\                     "
+  echo "                     /)\|   |/)\                    "
+  echo "                    /|)/     \(|\                   "
+  echo "                   /'^^'     '^^'\                  "
 }
 
 makeAppsDirectory
@@ -99,14 +99,3 @@ cloneHuginn
 bundleInstallMuninn
 bundleInstallHuginn
 completionMessage
-
-
-
-ESC_SEQ="\x1b["
-COL_RESET=$ESC_SEQ"39;49;00m"
-COL_RED=$ESC_SEQ"31;01m"
-COL_GREEN=$ESC_SEQ"32;01m"
-COL_YELLOW=$ESC_SEQ"33;01m"
-COL_BLUE=$ESC_SEQ"34;01m"
-COL_MAGENTA=$ESC_SEQ"35;01m"
-COL_CYAN=$ESC_SEQ"36;01m"

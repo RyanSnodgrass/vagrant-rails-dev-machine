@@ -66,20 +66,18 @@ end
   # View the documentation for the provider you're using for more
   # information on available options.
 #
-# $script2 = <<SCRIPT
-#
-# su - vagrant
-# mkdir /tmp/test
-#
-# SCRIPT
 
 
-$script = <<SCRIPT
-echo I am provisioning...
+$provisions = <<SCRIPT
+
+echo Preparing to provision...
+echo Installing git
 yum install -y git
 #yum update -y
+
+echo Preparing puppet scripts...
 if [ ! -d "/usr/share/puppet/modules/rvm" ]; then
-   git clone https://github.com/ndoit/puppet-rvm.git  /etc/puppet/modules/rvm
+  git clone https://github.com/ndoit/puppet-rvm.git  /etc/puppet/modules/rvm
    git clone https://github.com/ndoit/puppet-oracle-instant /etc/puppet/modules/oracle_instant_client
    git clone https://github.com/ndoit/puppet-ssh.git /etc/puppet/modules/ssh
    git clone https://github.com/ndoit/puppetlabs-firewall /etc/puppet/modules/firewall
@@ -89,29 +87,57 @@ if [ ! -d "/usr/share/puppet/modules/rvm" ]; then
    git clone https://github.com/ndoit/puppet-neo4j /etc/puppet/modules/neo4j
    git clone https://github.com/ndoit/puppet-rails-template.git /tmp/manifests/
 fi
+
+echo Getting epel and remi files...
 # ran into trouble installing libyaml-devl on centos.  adding the EPEL repo as described here fixed it
 # http://maverickgeekstuffs.blogspot.com/2013/03/installing-libyaml-devel-in-centos.html
 wget http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
 wget http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
 sudo rpm -Uvh remi-release-6*.rpm epel-release-6*.rpm
 
+echo Running SED...
 # fix from https://community.hpcloud.com/article/centos-63-instance-giving-cannot-retrieve-metalink-repository-epel-error
 sudo sed -i "s/mirrorlist=https/mirrorlist=http/" /etc/yum.repos.d/epel.repo
 
+echo Applying init and bi-portal-extras puppet files...
 sudo puppet apply --verbose --debug /tmp/manifests/init.pp
 sudo puppet apply --verbose --debug /tmp/manifests/bi-portal-extras.pp
 
+echo Implimenting usermod...
 usermod -a -G rvm vagrant
 
 SCRIPT
 
 
+$restart_services = <<SCRIPT
+echo Preparing nginx...
+cp /vagrant/apps/huginn/config/huginn_nginx_conf /etc/nginx/sites-available
+ln -s /etc/nginx/sites-available/huginn_nginx_conf /etc/nginx/sites-enabled/
 
-  config.vm.provision "shell", inline: $script
+echo Applying databases puppets...
+sudo puppet apply --verbose --debug /tmp/manifests/bi-portal-extras.pp
+
+echo Killing extraneous processes...
+/etc/init.d/iptables stop
+/usr/local/share/neo4j/bin/neo4j stop
+/usr/local/share/elasticsearch/bin/service/elasticsearch stop
+kill -9 $(cat /vagrant/apps/huginn/tmp/pid/unicorn.pid )
+kill -9 $(cat /vagrant/apps/muninn/tmp/pid/unicorn.pid )
+/usr/sbin/nginx -s stop
+
+echo Starting neo4j and elastic search...
+/usr/local/share/neo4j/bin/neo4j start
+/usr/local/share/elasticsearch/bin/service/elasticsearch start
+/usr/sbin/nginx
+
+SCRIPT
+
+
+  config.vm.provision "shell", inline: $provisions
   config.vm.provision "shell" do |s|
     s.path = "bootstrap.sh"
-    s.path = "restart_services.sh"
   end
+  config.vm.provision "shell", inline: $restart_services
   #
 
   # config.vm.provision "shell", path: "restart_services.sh"
