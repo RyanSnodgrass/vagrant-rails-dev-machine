@@ -70,12 +70,17 @@ end
 
 $provisions = <<SCRIPT
 
+echo =============================================================================
 echo Preparing to provision...
 echo Installing git
+echo =============================================================================
 yum install -y git
 #yum update -y
 
+echo =============================================================================
 echo Preparing puppet scripts...
+echo =============================================================================
+
 if [ ! -d "/usr/share/puppet/modules/rvm" ]; then
   git clone https://github.com/ndoit/puppet-rvm.git  /etc/puppet/modules/rvm
    git clone https://github.com/ndoit/puppet-oracle-instant /etc/puppet/modules/oracle_instant_client
@@ -88,36 +93,81 @@ if [ ! -d "/usr/share/puppet/modules/rvm" ]; then
    git clone https://github.com/ndoit/puppet-rails-template.git /tmp/manifests/
 fi
 
+echo =============================================================================
+echo Puppet cloning complete...
+echo =============================================================================
+
+echo =============================================================================
 echo Getting epel and remi files...
+echo =============================================================================
+
 # ran into trouble installing libyaml-devl on centos.  adding the EPEL repo as described here fixed it
 # http://maverickgeekstuffs.blogspot.com/2013/03/installing-libyaml-devel-in-centos.html
 wget http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
 wget http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
 sudo rpm -Uvh remi-release-6*.rpm epel-release-6*.rpm
 
-echo Running SED...
+echo =============================================================================
+echo epel and remi files complete...
+echo =============================================================================
+
+
+echo =============================================================================
+echo Running sed...
+echo =============================================================================
+
 # fix from https://community.hpcloud.com/article/centos-63-instance-giving-cannot-retrieve-metalink-repository-epel-error
 sudo sed -i "s/mirrorlist=https/mirrorlist=http/" /etc/yum.repos.d/epel.repo
 
-echo Applying init and bi-portal-extras puppet files...
+echo =============================================================================
+echo sed complete...
+echo =============================================================================
+
+echo =============================================================================
+echo Applying init puppet file...
+echo =============================================================================
+
 sudo puppet apply --verbose --debug /tmp/manifests/init.pp
+
+echo =============================================================================
+echo Init puppet file complete...
+echo =============================================================================
+
+echo =============================================================================
+echo Applying bi-portal-extras file...
+echo =============================================================================
+
 sudo puppet apply --verbose --debug /tmp/manifests/bi-portal-extras.pp
 
+echo =============================================================================
+echo bi-portal-extras file complete...
+echo =============================================================================
+
+echo =============================================================================
 echo Implimenting usermod...
+echo =============================================================================
+
 usermod -a -G rvm vagrant
 
 SCRIPT
 
 
 $restart_services = <<SCRIPT
+echo =============================================================================
 echo Preparing nginx...
+echo =============================================================================
+
 cp /vagrant/apps/huginn/config/huginn_nginx_conf /etc/nginx/sites-available
 ln -s /etc/nginx/sites-available/huginn_nginx_conf /etc/nginx/sites-enabled/
 
+echo =============================================================================
 echo Applying databases puppets...
-sudo puppet apply --verbose --debug /tmp/manifests/bi-portal-extras.pp
+echo =============================================================================
+# sudo puppet apply --verbose --debug /tmp/manifests/bi-portal-extras.pp
 
+echo =============================================================================
 echo Killing extraneous processes...
+echo =============================================================================
 /etc/init.d/iptables stop
 /usr/local/share/neo4j/bin/neo4j stop
 /usr/local/share/elasticsearch/bin/service/elasticsearch stop
@@ -125,7 +175,9 @@ kill -9 $(cat /vagrant/apps/huginn/tmp/pid/unicorn.pid )
 kill -9 $(cat /vagrant/apps/muninn/tmp/pid/unicorn.pid )
 /usr/sbin/nginx -s stop
 
+echo =============================================================================
 echo Starting neo4j and elastic search...
+echo =============================================================================
 /usr/local/share/neo4j/bin/neo4j start
 /usr/local/share/elasticsearch/bin/service/elasticsearch start
 /usr/sbin/nginx
