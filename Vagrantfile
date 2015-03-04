@@ -112,6 +112,8 @@ echo epel and remi files complete...
 echo =============================================================================
 
 
+
+
 echo =============================================================================
 echo Running sed...
 echo =============================================================================
@@ -124,6 +126,8 @@ echo sed complete...
 echo =============================================================================
 
 
+
+
 echo =============================================================================
 echo Applying bi-portal-extras file...
 echo =============================================================================
@@ -133,6 +137,9 @@ sudo puppet apply --verbose --debug /tmp/manifests/bi-portal-extras.pp
 echo =============================================================================
 echo bi-portal-extras file complete...
 echo =============================================================================
+
+
+
 
 echo =============================================================================
 echo Applying init puppet file...
@@ -163,11 +170,6 @@ cp /vagrant/apps/huginn/config/huginn_nginx_conf /etc/nginx/sites-available
 ln -s /etc/nginx/sites-available/huginn_nginx_conf /etc/nginx/sites-enabled/
 
 echo =============================================================================
-echo Applying databases puppets...
-echo =============================================================================
-# sudo puppet apply --verbose --debug /tmp/manifests/bi-portal-extras.pp
-
-echo =============================================================================
 echo Killing extraneous processes...
 echo =============================================================================
 /etc/init.d/iptables stop
@@ -186,12 +188,15 @@ echo ===========================================================================
 
 SCRIPT
 
+
   config.vm.provision "shell", inline: $provisions
   config.vm.provision "shell" do |s|
     s.path = "bootstrap.sh"
   end
+  config.vm.provision "shell" do |s|
+    s.path = "keys.sh"
+  end
   config.vm.provision "shell", inline: $restart_services
-  #
 
   # config.vm.provision "shell", path: "restart_services.sh"
   # from rvm module writer's sample vagrant file
