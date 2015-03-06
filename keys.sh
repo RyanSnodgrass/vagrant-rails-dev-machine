@@ -30,7 +30,7 @@ keySetUp(){
   echo Writing secret key...
   rakeSecretHuginn=$(rake secret)
 
-  echo S3_Key=$s3Key >> .env.local
+  echo S3_KEY=$s3Key >> .env.local
   echo S3_SECRET=$s3Secret >> .env.local
   echo S3_BUCKET_NAME=$s3Bucket >> .env.local
   echo S3_REGION=$s3Region >> .env.local
