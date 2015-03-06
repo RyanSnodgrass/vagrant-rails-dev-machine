@@ -29,7 +29,7 @@ keySetUp(){
 
   echo Writing secret key...
   rakeSecretHuginn=$(rake secret)
-  
+
   echo S3_Key=$s3Key >> .env.local
   echo S3_SECRET=$s3Secret >> .env.local
   echo S3_BUCKET_NAME=$s3Bucket >> .env.local
@@ -42,6 +42,9 @@ keySetUp(){
   cd /vagrant/apps/muninn
   rakeSecretMuninn=$(rake secret)
   echo RAILS_SECRET_KEY_BASE=$rakeSecretMuninn >> .env.local
+
+  cd /vagrant
+
 }
 
 checkUser
