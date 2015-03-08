@@ -30,3 +30,5 @@ cd /vagrant/apps/huginn/ && bundle && bundle exec unicorn -c /vagrant/apps/hugin
 #cd /vagrant/apps/muninn/ && bundle && puma -w 4 -p 3000 --pidfile /tmp/muninn.pid -d -C /vagrant/muninn.conf
 #cd /vagrant/apps/huginn/ && bundle && puma -w 4 -p 3001 --pidfile /tmp/huginn.pid -d -C /vagrant/huginn.conf
 sudo /usr/sbin/nginx
+
+cd /vagrant/
