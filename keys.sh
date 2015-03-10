@@ -20,10 +20,10 @@ keySetUp(){
   cd /vagrant/apps/huginn
 
   echo Please prepare your S3 Key and Secret...
-  read -r -p "Please enter your S3 Key... " s3Key
-  read -r -p "Please enter your S3 Secret... " s3Secret
-  read -r -p "Please enter your S3 Bucket Name... " s3Bucket
-  read -r -p "Please enter your S3 Region... " s3Region
+  read -r -p "Please enter your S3 Key: " s3Key
+  read -r -p "Please enter your S3 Secret: " s3Secret
+  read -r -p "Please enter your S3 Bucket Name: " s3Bucket
+  read -r -p "Please enter your S3 Region: " s3Region
 
 
 
